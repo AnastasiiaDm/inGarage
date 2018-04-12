@@ -28,8 +28,10 @@ public class FilterCheck {
 
     @Test
     public void filterCheck() throws InterruptedException, IllegalArgumentException {
-        WebElement getCDChangerCheck = browser.findElement(By.cssSelector("input[value='CD-чейнджер'] + label"));
+
         JSWaiter jsWaiter = new JSWaiter(browser);
+
+        WebElement getCDChangerCheck = browser.findElement(By.cssSelector("input[value='CD-чейнджер'] + label"));
         getCDChangerCheck.click();
 
         while (!jsWaiter.waitForJQueryLoad()) {
@@ -37,20 +39,22 @@ public class FilterCheck {
         }
 //        Thread.sleep(2000);
         WebElement filterResultFirstPage = browser.findElement(By.cssSelector("div.rows"));
-        String result = filterResultFirstPage.getText();
+        String firstPageResult = filterResultFirstPage.getText();
         List<WebElement> resultCount = browser.findElements(By.cssSelector("div.product_item.ajax-item"));
 
         WebElement nextPage = browser.findElement(By.cssSelector(".pagination .pagination li:last-of-type a"));
         nextPage.click();
 
-
         while (!jsWaiter.waitForJQueryLoad()) {
             Thread.sleep(100);
         }
+        List<WebElement> listNextPage = browser.findElements(By.cssSelector("div.product_item.ajax-item"));
+
+        WebElement readResultFirstPage = browser.findElement(By.cssSelector("div.rows"));
+        String resultNextPage = readResultFirstPage.getText();
 
 
-        List<WebElement> resultCountNextPage = browser.findElements(By.cssSelector("div.product_item.ajax-item"));
-        System.out.println(result + "\n (" + (resultCount.size() +  resultCountNextPage.size()) + ")");
+        System.out.println(firstPageResult + "\n" + resultNextPage +  "\n (" + (resultCount.size() +  listNextPage.size()) + ")");
 
 //        Assert.assertTrue();
 
