@@ -1,5 +1,6 @@
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -56,7 +57,7 @@ public class FilterCheck {
     public void openBrowser() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\user\\Downloads\\chromedriver.exe");
         browser = new ChromeDriver();
-        browser.get("https://ingarage.ua/poisk.html");
+        browser.get("https://dev.ingarage.ua/poisk.html");
     }
 
     @AfterTest
@@ -108,9 +109,19 @@ public class FilterCheck {
 
     @Test
     public void test() throws InterruptedException, IllegalArgumentException {
-        String nameValue = "Активатор замка лючка бензобака";
+        String nameValue = "1033";                                          // ОБЯЗАТЕЛЬНО ПРОВЕРЯТЬ СОВПАДЕНИЕ ПО ПАРАМЕТРУ value
         JSWaiter jsWaiter = new JSWaiter(browser);
+        while (!jsWaiter.waitForJQueryLoad()) {
+            Thread.sleep(100);
+        }
+
+
+
         WebElement getChecker = browser.findElement(By.cssSelector("input[value='" + nameValue + "'] + label"));
+        Actions actions = new Actions(browser);
+        actions.moveToElement(getChecker);
+        actions.perform();
+
         getChecker.click();
         while (!jsWaiter.waitForJQueryLoad()) {
             Thread.sleep(100);
@@ -131,6 +142,7 @@ public class FilterCheck {
 // scroll browser up
         JavascriptExecutor js = (JavascriptExecutor) browser;
         js.executeScript("window.scrollTo(0,0)");
+
 // unclick Webasto
         getChecker.click();
 
