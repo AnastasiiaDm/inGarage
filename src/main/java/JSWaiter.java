@@ -25,12 +25,12 @@ public class JSWaiter {
 
         //Wait JQuery until it is Ready!
         if (!jqueryReady) {
-            System.out.println("JQuery is NOT Ready!");
+//            System.out.println("JQuery is NOT Ready!");
             //Wait for jQuery to load
             jsWait.until(jQueryLoad1);
             return false;
         } else {
-            System.out.println("JQuery is Ready!");
+//            System.out.println("JQuery is Ready!");
             return true;
         }
 

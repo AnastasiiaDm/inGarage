@@ -35,7 +35,7 @@ public class TestFilterHelper {
                 nextPage.click();
                 while (!jsWaiter.waitForJQueryLoad()) {
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(200);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -49,44 +49,55 @@ public class TestFilterHelper {
         return count;
     }
 
-    public void test(String nameValue) throws InterruptedException, IllegalArgumentException {
+    public void testYearFilter(String yearFilter) throws InterruptedException, IllegalArgumentException {
 
         while (!jsWaiter.waitForJQueryLoad()) {
-            Thread.sleep(100);
+            Thread.sleep(200);
         }
 
-        WebElement getChecker = browser.findElement(By.cssSelector("input[value='" + nameValue + "'] + label"));
-        Actions actions = new Actions(browser);
-        actions.moveToElement(getChecker);
-        actions.perform();
+        List<WebElement> el = browser.findElements(By.cssSelector("input[name='" + yearFilter + "']"));
 
-        getChecker.click();
-        while (!jsWaiter.waitForJQueryLoad()) {
-            Thread.sleep(100);
-        }
+        for (int i = 0; i <= el.size(); i++){
+            WebElement input = el.get(i);
 
-        int countAllPages = getCountItemAllPages(browser, jsWaiter);
-        System.out.println("getCountItemAllPages = " + countAllPages);
+            WebElement getChecker = browser.findElement(By.cssSelector("input[value='" + input.getAttribute("value") + "'] + label"));
+            WebElement getChecker2 = browser.findElement(By.cssSelector("input[value='" + input.getAttribute("value") + "'] "));
+            String val = getChecker2.getAttribute("value");
+            System.out.println(val);
+            Actions actions = new Actions(browser);
+            actions.moveToElement(getChecker);
+            actions.perform();
 
-        WebElement numFromSite = browser.findElement(By.cssSelector("input[value='" + nameValue + "'] + label span"));
-        int numberFromSite = Integer.parseInt(numFromSite.getText());
-        System.out.println("numberFromSite = " + numberFromSite);
-        if (numberFromSite == countAllPages) {
-            System.out.println("\n" + "Test Passed" + "\n");
-        } else {
-            System.out.println("\n" + "Test Failed: numbers don't match" + "\n");
-        }
+            getChecker.click();
+            while (!jsWaiter.waitForJQueryLoad()) {
+                Thread.sleep(200);
+            }
+
+            int countAllPages = getCountItemAllPages(browser, jsWaiter);
+            System.out.println("getCountItemAllPages = " + countAllPages);
+
+            WebElement numFromSite = browser.findElement(By.cssSelector("input[value='" + input.getAttribute("value") + "'] + label span"));
+            int numberFromSite = Integer.parseInt(numFromSite.getText());
+            System.out.println("numberFromSite = " + numberFromSite);
+            if (numberFromSite == countAllPages) {
+                System.out.println("\n" + "Test Passed" + "\n");
+            } else {
+                System.out.println("\n" + "Test Failed: numbers don't match" + "\n");
+            }
 
 // scroll browser up
-        JavascriptExecutor js = (JavascriptExecutor) browser;
-        js.executeScript("window.scrollTo(0,0)");
+            JavascriptExecutor js = (JavascriptExecutor) browser;
+            js.executeScript("window.scrollTo(0,0)");
 
 // unclick Checker
-        getChecker.click();
+            getChecker.click();
 
-        while (!jsWaiter.waitForJQueryLoad()) {
-            Thread.sleep(100);
+            while (!jsWaiter.waitForJQueryLoad()) {
+                Thread.sleep(100);
+            }
         }
+
+
     }
 
 }
