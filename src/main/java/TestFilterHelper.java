@@ -24,65 +24,66 @@ public class TestFilterHelper {
         int count = getCountItems(browser);
 
         for (; true; ) {
-            System.out.println("begin cycle, count = " + count);
+//            System.out.println("begin cycle, count = " + count);
             try {
                 nextPage = browser.findElement(By.cssSelector(".pagination .pagination li:last-of-type a"));
             } catch (NoSuchElementException ref) {
-                System.out.println(ref.getMessage());
+//                System.out.println(ref.getMessage());
                 break;
             }
             if (nextPage != null) {
                 nextPage.click();
                 while (!jsWaiter.waitForJQueryLoad()) {
                     try {
-                        Thread.sleep(200);
+                        Thread.sleep(500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
                 int countPage = getCountItems(browser);
                 count += countPage;
-                System.out.println("count = " + count);
+//                System.out.println("count = " + count);
             }
         }
 
         return count;
     }
 
-    public void testYearFilter(String yearFilter) throws InterruptedException, IllegalArgumentException {
+    public void testCatalogFilter(String catalogFilter) throws InterruptedException, IllegalArgumentException {
 
         while (!jsWaiter.waitForJQueryLoad()) {
-            Thread.sleep(200);
+            Thread.sleep(500);
         }
 
-        List<WebElement> el = browser.findElements(By.cssSelector("input[name='" + yearFilter + "']"));
+        List<WebElement> el = browser.findElements(By.cssSelector("input[name='" + catalogFilter + "']"));
 
-        for (int i = 0; i <= el.size(); i++){
+        for (int i = 0; i < el.size(); i++) {
             WebElement input = el.get(i);
 
-            WebElement getChecker = browser.findElement(By.cssSelector("input[value='" + input.getAttribute("value") + "'] + label"));
-            WebElement getChecker2 = browser.findElement(By.cssSelector("input[value='" + input.getAttribute("value") + "'] "));
+
+            WebElement getChecker = browser.findElement(By.cssSelector("input[id='" + input.getAttribute("id") + "'] + label"));
+            WebElement getChecker2 = browser.findElement(By.cssSelector("input[id='" + input.getAttribute("id") + "'] "));
             String val = getChecker2.getAttribute("value");
-            System.out.println(val);
+            System.out.println(val + ":");
             Actions actions = new Actions(browser);
             actions.moveToElement(getChecker);
             actions.perform();
 
             getChecker.click();
             while (!jsWaiter.waitForJQueryLoad()) {
-                Thread.sleep(200);
+                Thread.sleep(500);
             }
 
             int countAllPages = getCountItemAllPages(browser, jsWaiter);
             System.out.println("getCountItemAllPages = " + countAllPages);
 
-            WebElement numFromSite = browser.findElement(By.cssSelector("input[value='" + input.getAttribute("value") + "'] + label span"));
+            WebElement numFromSite = browser.findElement(By.cssSelector("input[id='" + input.getAttribute("id") + "'] + label span"));
             int numberFromSite = Integer.parseInt(numFromSite.getText());
             System.out.println("numberFromSite = " + numberFromSite);
             if (numberFromSite == countAllPages) {
-                System.out.println("\n" + "Test Passed" + "\n");
+                System.out.println("\n" + "Test Passed" + "\n" + "\n");
             } else {
-                System.out.println("\n" + "Test Failed: numbers don't match" + "\n");
+                System.out.println("\n" + "Test Failed: numbers don't match" + "\n" + "\n");
             }
 
 // scroll browser up
@@ -93,11 +94,15 @@ public class TestFilterHelper {
             getChecker.click();
 
             while (!jsWaiter.waitForJQueryLoad()) {
-                Thread.sleep(100);
+                Thread.sleep(500);
             }
+
+
         }
 
 
     }
+
+
 
 }

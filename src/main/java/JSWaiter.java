@@ -10,7 +10,7 @@ public class JSWaiter {
 
     public JSWaiter(WebDriver driver) {
         jsWaitDriver = driver;
-        jsWait = new WebDriverWait(jsWaitDriver, 10);
+        jsWait = new WebDriverWait(jsWaitDriver, 20);
         jsExec = (JavascriptExecutor) jsWaitDriver;
     }
 
@@ -39,7 +39,7 @@ public class JSWaiter {
 
     //Wait for Angular Load
     public void waitForAngularLoad() {
-        WebDriverWait wait = new WebDriverWait(jsWaitDriver, 15);
+        WebDriverWait wait = new WebDriverWait(jsWaitDriver, 30);
         JavascriptExecutor jsExec = (JavascriptExecutor) jsWaitDriver;
 
         String angularReadyScript = "return angular.element(document).injector().get('$http').pendingRequests.length === 0";
@@ -62,7 +62,7 @@ public class JSWaiter {
 
     //Wait Until JS Ready
     public void waitUntilJSReady() {
-        WebDriverWait wait = new WebDriverWait(jsWaitDriver, 15);
+        WebDriverWait wait = new WebDriverWait(jsWaitDriver, 30);
         JavascriptExecutor jsExec = (JavascriptExecutor) jsWaitDriver;
 
         //Wait for Javascript to load

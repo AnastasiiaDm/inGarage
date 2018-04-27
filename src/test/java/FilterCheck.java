@@ -30,11 +30,32 @@ public class FilterCheck {
 
 
     @Test
-    public void test_1() throws InterruptedException, IllegalArgumentException {
+    public void test_year() throws InterruptedException, IllegalArgumentException {
         TestFilterHelper testFilterHelper = new TestFilterHelper(browser);
-        testFilterHelper.testYearFilter("year_of_issue[]");
-
+        testFilterHelper.testCatalogFilter("year_of_issue[]");
     }
 
+    @Test
+    public void test_region() throws InterruptedException, IllegalArgumentException {
+        TestFilterHelper testFilterHelper = new TestFilterHelper(browser);
+        testFilterHelper.testCatalogFilter("region[]");
+    }
+
+    @Test
+    public void test_model() throws InterruptedException, IllegalArgumentException {
+        TestFilterHelper testFilterHelper = new TestFilterHelper(browser);
+        testFilterHelper.testCatalogFilter("model[]");
+    }
+    @Test
+    public void test_mark() throws InterruptedException, IllegalArgumentException {
+        TestFilterHelper testFilterHelper = new TestFilterHelper(browser);
+        testFilterHelper.testCatalogFilter("marka[]");
+    }
+
+    @Test
+    public void test_SparesType() throws InterruptedException, IllegalArgumentException {
+        TestFilterHelper testFilterHelper = new TestFilterHelper(browser);
+        testFilterHelper.testCatalogFilter("spares[]");
+    }
 }
 
