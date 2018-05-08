@@ -21,7 +21,7 @@ public class SearchCheck {
 
 
     @Test
-    public void test_year() throws InterruptedException, IllegalArgumentException {
+    public void test_podrobnee() throws InterruptedException, IllegalArgumentException {
         TestSearchHelper testSearchHelper = new TestSearchHelper(browser);
         testSearchHelper.clickPodrobnee("modal");
     }
