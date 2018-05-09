@@ -1,7 +1,6 @@
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-
-import java.util.List;
+import scala.collection.immutable.List;
 
 public class TestFilterHelper {
     private WebDriver browser;
@@ -14,7 +13,7 @@ public class TestFilterHelper {
 
     //show
     private int getCountItems(WebDriver browser) {
-        List<WebElement> countItems = browser.findElements(By.cssSelector("div.product_item.ajax-item"));
+        java.util.List<WebElement> countItems = browser.findElements(By.cssSelector("div.product_item.ajax-item"));
         return countItems.size();
     }
 
@@ -55,7 +54,7 @@ public class TestFilterHelper {
             Thread.sleep(500);
         }
 
-        List<WebElement> el = browser.findElements(By.cssSelector("input[name='" + catalogFilter + "']"));
+        java.util.List<WebElement> el = browser.findElements(By.cssSelector("input[name='" + catalogFilter + "']"));
 
         for (int i = 0; i < el.size(); i++) {
             WebElement input = el.get(i);
