@@ -19,11 +19,23 @@ public class TestSearchHelper {
         Thread.sleep(1500);
     }
 
-//    public void analogNumber (WebDriver browser) {
-//        WebElement analogNum = browser.findElement(By.cssSelector("[class='analog_number']  "));
-//        analogNum.getText();
-//        System.out.println(analogNum);
-//    }
+    public void value (WebDriver browser) {
+        WebElement find = browser.findElement(By.cssSelector(".analog_number"));
+        String val = find.getText();
+        if (find.isEnabled())
+            System.out.println(val);
+
+        WebElement close = browser.findElement(By.cssSelector(".close"));
+        close.click();
+
+
+
+    }
+
+
+
+
+
 
 
     private void analogNumber(WebDriver browser, JSWaiter jsWaiter) {
@@ -36,11 +48,13 @@ public class TestSearchHelper {
             System.out.println("analog num not exist");
 
             try {
-                analogNum = browser.findElement(By.cssSelector("[class='analog_number']  "));
+//                analogNum = browser.findElement(By.cssSelector(".analog_number"));
+                analogNum = browser.findElement(By.cssSelector(".marka"));
+
             } catch (NoSuchElementException ref) {
                 System.out.println(ref.getMessage());
 
-                WebElement closePodrobnee = browser.findElement(By.cssSelector("[class='close']"));
+                WebElement closePodrobnee = browser.findElement(By.cssSelector(".close"));
                 break;
             }
             if (analogNum != null) {

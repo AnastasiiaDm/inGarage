@@ -1,4 +1,5 @@
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -27,7 +28,11 @@ public class JSWaiter {
         if (!jqueryReady) {
 //            System.out.println("JQuery is NOT Ready!");
             //Wait for jQuery to load
-            jsWait.until(jQueryLoad1);
+            try {
+                jsWait.until(jQueryLoad1);
+            }catch (TimeoutException e){
+                System.out.println(e.getMessage());
+            }
             return false;
         } else {
 //            System.out.println("JQuery is Ready!");

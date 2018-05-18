@@ -61,9 +61,11 @@ public class TestFilterHelper {
 
 
             WebElement getChecker = browser.findElement(By.cssSelector("input[id='" + input.getAttribute("id") + "'] + label"));
-            WebElement getChecker2 = browser.findElement(By.cssSelector("input[id='" + input.getAttribute("id") + "'] "));
-            String val = getChecker2.getAttribute("value");
+//            WebElement getChecker2 = browser.findElement(By.cssSelector("input[id='" + input.getAttribute("id") + "'] "));
+//            String val = getChecker2.getAttribute("value");
+            String val = getChecker.getText();
             System.out.println(val + ":");
+
             Actions actions = new Actions(browser);
             actions.moveToElement(getChecker);
             actions.perform();
@@ -74,11 +76,11 @@ public class TestFilterHelper {
             }
 
             int countAllPages = getCountItemAllPages(browser, jsWaiter);
-            System.out.println("getCountItemAllPages = " + countAllPages);
+            System.out.println("Number of items = " + countAllPages);
 
             WebElement numFromSite = browser.findElement(By.cssSelector("input[id='" + input.getAttribute("id") + "'] + label span"));
             int numberFromSite = Integer.parseInt(numFromSite.getText());
-            System.out.println("numberFromSite = " + numberFromSite);
+//            System.out.println("numberFromSite = " + numberFromSite);
             if (numberFromSite == countAllPages) {
                 System.out.println("\n" + "Test Passed" + "\n" + "\n");
             } else {
