@@ -41,27 +41,27 @@ public class FilterCheck {
 
     @Test
     public void test_region() throws InterruptedException, IllegalArgumentException {
-        System.out.println("Test 1" + "\n" +"Регион:" + "\n");
+        System.out.println("Test 2" + "\n" +"Регион:" + "\n");
         TestFilterHelper testFilterHelper = new TestFilterHelper(browser);
         testFilterHelper.testCatalogFilter("region[]");
     }
 
     @Test
     public void test_model() throws InterruptedException, IllegalArgumentException {
-        System.out.println("Test 1" + "\n" +"Модель:" + "\n");
+        System.out.println("Test 3" + "\n" +"Модель:" + "\n");
         TestFilterHelper testFilterHelper = new TestFilterHelper(browser);
         testFilterHelper.testCatalogFilter("model[]");
     }
     @Test
     public void test_mark() throws InterruptedException, IllegalArgumentException {
-        System.out.println("Test 1" + "\n" +"Марка:" + "\n");
+        System.out.println("Test 4" + "\n" +"Марка:" + "\n");
         TestFilterHelper testFilterHelper = new TestFilterHelper(browser);
         testFilterHelper.testCatalogFilter("marka[]");
     }
 
     @Test
     public void test_SparesType() throws InterruptedException, IllegalArgumentException {
-        System.out.println("Test 1" + "\n" +"Тип запчасти:" + "\n");
+        System.out.println("Test 5" + "\n" +"Тип запчасти:" + "\n");
         TestFilterHelper testFilterHelper = new TestFilterHelper(browser);
         testFilterHelper.testCatalogFilter("spares[]");
     }
