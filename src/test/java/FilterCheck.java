@@ -36,7 +36,7 @@ public class FilterCheck {
     public void test_year() throws InterruptedException, IllegalArgumentException {
         System.out.println("Test 1" + "\n" +"Год выпуска:" + "\n");
         TestFilterHelper testFilterHelper = new TestFilterHelper(browser);
-        testFilterHelper.testCatalogFilter("year_of_issue[]");
+        testFilterHelper.testCatalogFilter("year_of_issue[] ");
     }
 
     @Test

@@ -14,19 +14,23 @@ public class TestSearchHelper {
     }
 
     public void clickPodrobnee(String podrobnee) throws InterruptedException {
-        WebElement podrobneeButton = browser.findElement(By.cssSelector("[data-toggle='" + podrobnee + "']"));
-        podrobneeButton.click();
+        browser.findElement(By.cssSelector("[data-toggle='" + podrobnee + "']")).click();
         Thread.sleep(1500);
     }
 
     public void value (WebDriver browser) {
-        WebElement find = browser.findElement(By.cssSelector(".analog_number"));
+        WebElement find = browser.findElement(By.cssSelector(".marka"));
         String val = find.getText();
         if (find.isEnabled())
             System.out.println(val);
+        browser.findElement(By.cssSelector(".close")).click();
+        browser.findElement(By.cssSelector("[placeholder='Введите слово']")).sendKeys(val);
+//       need to find button Найти  browser.findElement(By.cssSelector(""));
 
-        WebElement close = browser.findElement(By.cssSelector(".close"));
-        close.click();
+
+
+
+
 
 
 
