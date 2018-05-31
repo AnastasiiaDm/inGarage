@@ -8,7 +8,32 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.concurrent.TimeoutException;
 
 public class LoaderWaiter {
-    private WebDriver browser;
+    public static void waitForLoad(WebDriver browser) {
+//        ExpectedCondition<Boolean> pageLoadCondition = browser1 -> ((JavascriptExecutor) browser1).executeScript("return document.readyState").equals("complete");
+//        WebDriverWait wait = new WebDriverWait(browser, 30);
+//        wait.until(pageLoadCondition);
+
+        WebDriverWait waitUntil = new WebDriverWait(browser, 10);
+//        waitUntil.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".preloader[style='display: none;']")));
+        waitUntil.until(ExpectedConditions.attributeContains(By.cssSelector(".preloader"), "style", "display: none;"));
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 //    WebDriverWait wait = new WebDriverWait(browser, 15);
@@ -24,16 +49,26 @@ public class LoaderWaiter {
 //            }
 //        };
 //    }
-public static String waitForElementNotVisible(int timeOutInSeconds, WebDriver driver, String elementXPath) {
-    if ((driver == null) || (elementXPath == null) || elementXPath.isEmpty()) {
 
-        return "Wrong usage of WaitforElementNotVisible()";
-    }
-    try {
-        (new WebDriverWait(driver, timeOutInSeconds)).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(elementXPath)));
-        return null;
-    } catch (org.openqa.selenium.TimeoutException e) {
-        return "Build your own errormessage...";
-    }
+
+
+
+
+
+
+//public static String waitForElementNotVisible(int timeOutInSeconds, WebDriver driver, String elementXPath) {
+//    if ((driver == null) || (elementXPath == null) || elementXPath.isEmpty()) {
+//
+//        return "Wrong usage of WaitforElementNotVisible()";
+//    }
+//    try {
+//        (new WebDriverWait(driver, timeOutInSeconds)).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(elementXPath)));
+//        return null;
+//    } catch (org.openqa.selenium.TimeoutException e) {
+//        return "Build your own errormessage...";
+//    }
+//}
 }
-}
+
+
+

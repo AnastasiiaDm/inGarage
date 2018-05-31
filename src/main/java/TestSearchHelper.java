@@ -6,11 +6,11 @@ import org.openqa.selenium.interactions.Actions;
 
 public class TestSearchHelper {
     private WebDriver browser;
-    private final JSWaiter jsWaiter;
+//    private final JSWaiter jsWaiter;
 
     public TestSearchHelper(WebDriver browser) {
         this.browser = browser;
-        jsWaiter = new JSWaiter(browser);
+//        jsWaiter = new JSWaiter(browser);
     }
 
     public void clickPodrobnee(String podrobnee) throws InterruptedException {
@@ -18,23 +18,25 @@ public class TestSearchHelper {
         Thread.sleep(1500);
     }
 
-    public void value (WebDriver browser) {
+    public void value (WebDriver browser) throws InterruptedException {
         WebElement find = browser.findElement(By.cssSelector(".marka"));
         String val = find.getText();
         if (find.isEnabled())
             System.out.println(val);
         browser.findElement(By.cssSelector(".close")).click();
         browser.findElement(By.cssSelector("[placeholder='Введите слово']")).sendKeys(val);
-//       need to find button Найти  browser.findElement(By.cssSelector(""));
+        browser.findElement(By.cssSelector("[class='search-form'] button"));
 
+            LoaderWaiter.waitForLoad(browser);
+//            Thread.sleep(5000);
 
-
-
-
-
-
+        browser.findElement(By.cssSelector("[data-toggle='modal']")).click();
+//        проверить цифру из фильтра например марки , закинуть назввание марки в поиск и проверить количество наименований марки  в соответствии цифре из фильтра
 
     }
+
+
+
 
 
 
