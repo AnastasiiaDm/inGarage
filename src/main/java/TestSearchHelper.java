@@ -1,8 +1,12 @@
+import org.apache.http.util.TextUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+
+import javax.xml.soap.Node;
+import java.util.List;
 
 public class TestSearchHelper {
     private WebDriver browser;
@@ -18,10 +22,11 @@ public class TestSearchHelper {
         Thread.sleep(1500);
     }
 
-    public void value (WebDriver browser) throws InterruptedException {
-        WebElement find = browser.findElement(By.cssSelector(".origin_number"));
+    public void value(WebDriver browser) throws InterruptedException {
+        WebElement find = browser.findElement(By.cssSelector(".marka"));
         String val = find.getText();
-        if (find.isEnabled())
+// проверка на существование и пустое значение
+        if (find.isEnabled() && !TextUtils.isEmpty(val)) {
 
             System.out.println(val);
             browser.findElement(By.cssSelector(".close")).click();
@@ -32,31 +37,46 @@ public class TestSearchHelper {
 
 //            Thread.sleep(5000);
 
-            browser.findElement(By.cssSelector("[data-toggle='modal']")).click();
-            Thread.sleep(1500);
-            WebElement result = browser.findElement(By.cssSelector(".origin_number"));
-            String results = result.getText();
-            if (find.isEnabled())
-                System.out.println(results);
-            if (val.equals(results)) {
-                System.out.println("true" + "\n");
-            } else {
-                System.out.println("false" + "\n");
+//            browser.findElement(By.cssSelector("[data-toggle='modal']")).click();
+//            Thread.sleep(1500);
+//            WebElement result = browser.findElement(By.cssSelector(".marka"));
+//            String results = result.getText();
+//            if (find.isEnabled())
+//                System.out.println(results);
+//            if (val.equals(results)) {
+//                System.out.println("true" + "\n");
+//            } else {
+//                System.out.println("false" + "\n");
+//            }
+//            browser.findElement(By.cssSelector(".close")).click();
+
+            java.util.List<WebElement> listItem = browser.findElements(By.cssSelector("[data-toggle='modal']"));
+            System.out.println("listItem.size() = " + listItem.size());
+
+//ошибка, не кликается
+            for (WebElement element : listItem) {
+                Thread.sleep(1500);
+                element.click();
+                String nextResults = browser.findElement(By.cssSelector(".marka")).getText();
+                if (val.equals(nextResults)) {
+                    System.out.println("true" + "\n");
+                } else {
+                    System.out.println("false" + "\n");
+                }
+                browser.findElement(By.cssSelector(".close")).click();
+
             }
+
+//            for (int i = 0; i < listItem.size(); i++) {
+//                WebElement element = listItem.get(i);
+//
+//            }
+        } else {
             browser.findElement(By.cssSelector(".close")).click();
-
-
+        }
 //        проверить цифру из фильтра например марки , закинуть назввание марки в поиск и проверить количество наименований марки  в соответствии цифре из фильтра
 
     }
-
-
-
-
-
-
-
-
 
 
     private void analogNumber(WebDriver browser, JSWaiter jsWaiter) {
