@@ -19,18 +19,33 @@ public class TestSearchHelper {
     }
 
     public void value (WebDriver browser) throws InterruptedException {
-        WebElement find = browser.findElement(By.cssSelector(".marka"));
+        WebElement find = browser.findElement(By.cssSelector(".origin_number"));
         String val = find.getText();
         if (find.isEnabled())
+
             System.out.println(val);
-        browser.findElement(By.cssSelector(".close")).click();
-        browser.findElement(By.cssSelector("[placeholder='Введите слово']")).sendKeys(val);
-        browser.findElement(By.cssSelector("[class='search-form'] button"));
+            browser.findElement(By.cssSelector(".close")).click();
+            browser.findElement(By.cssSelector("[placeholder='Введите слово']")).sendKeys(val);
+            browser.findElement(By.cssSelector("[class='search-form'] button"));
 
             LoaderWaiter.waitForLoad(browser);
+
 //            Thread.sleep(5000);
 
-        browser.findElement(By.cssSelector("[data-toggle='modal']")).click();
+            browser.findElement(By.cssSelector("[data-toggle='modal']")).click();
+            Thread.sleep(1500);
+            WebElement result = browser.findElement(By.cssSelector(".origin_number"));
+            String results = result.getText();
+            if (find.isEnabled())
+                System.out.println(results);
+            if (val.equals(results)) {
+                System.out.println("true" + "\n");
+            } else {
+                System.out.println("false" + "\n");
+            }
+            browser.findElement(By.cssSelector(".close")).click();
+
+
 //        проверить цифру из фильтра например марки , закинуть назввание марки в поиск и проверить количество наименований марки  в соответствии цифре из фильтра
 
     }
