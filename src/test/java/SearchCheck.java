@@ -1,3 +1,4 @@
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -24,7 +25,7 @@ public class SearchCheck {
 
 
     @Test
-    public void test_podrobnee() throws InterruptedException, IllegalArgumentException {
+    public void test_podrobnee() throws InterruptedException, IllegalArgumentException, StaleElementReferenceException {
         TestSearchHelper testSearchHelper = new TestSearchHelper(browser);
         testSearchHelper.clickPodrobnee("modal");
         testSearchHelper.value(browser);

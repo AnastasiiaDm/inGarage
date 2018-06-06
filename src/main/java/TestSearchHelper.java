@@ -6,6 +6,7 @@ import javax.xml.soap.Node;
 import java.util.List;
 
 public class TestSearchHelper {
+    private final long TIME_SLEEP = 500;
     private WebDriver browser;
 //    private final JSWaiter jsWaiter;
 
@@ -14,13 +15,13 @@ public class TestSearchHelper {
 //        jsWaiter = new JSWaiter(browser);
     }
 
-    public void clickPodrobnee(String podrobnee) throws InterruptedException {
+    public void clickPodrobnee(String podrobnee) throws InterruptedException, StaleElementReferenceException {
         browser.findElement(By.cssSelector("[data-toggle='" + podrobnee + "']")).click();
-        Thread.sleep(1500);
+        Thread.sleep(TIME_SLEEP);
     }
 
-    public void value(WebDriver browser) throws InterruptedException {
-        WebElement item = browser.findElement(By.cssSelector(".marka"));
+    public void value(WebDriver browser) throws InterruptedException, StaleElementReferenceException {
+        WebElement item = browser.findElement(By.cssSelector(".origin_number"));
         String val = item.getText();
 // проверка на существование и пустое значение
         if (item.isEnabled() && !TextUtils.isEmpty(val)) {
@@ -31,120 +32,106 @@ public class TestSearchHelper {
 
             LoaderWaiter.waitForLoad(browser);
 
-testCurrentPage(browser , val);
+            testCurrentPage(browser, val);
+
+            while (browser.findElement(By.cssSelector(".pagination .pagination li:last-of-type a")).isEnabled()) {
+                Thread.sleep(TIME_SLEEP);
+                browser.findElement(By.cssSelector(".pagination .pagination li:last-of-type a")).click();
+                LoaderWaiter.waitForLoad(browser);
+
+                JavascriptExecutor js = (JavascriptExecutor) browser;
+                js.executeScript("window.scrollTo(0, -document.body.scrollHeight);");
+
+                Thread.sleep(TIME_SLEEP);
+                testCurrentPage(browser, val);
+            }
 
         } else {
-            browser.findElement(By.cssSelector(".close")).click();
+//            do {
+                browser.findElement(By.cssSelector(".close")).click();
+                System.out.println("no search value");
+//                Thread.sleep(TIME_SLEEP);
+//                browser.findElement(By.cssSelector("[data-toggle='modal']")).click();
+//                browser.findElement(By.cssSelector(".origin_number")).getText();
+
+
+//            } while (browser.findElement(By.cssSelector("[data-toggle='modal']")).isEnabled());
         }
-        WebElement nextPage = browser.findElement(By.cssSelector(".pagination .pagination li:last-of-type a"));
-//        for (WebElement allPages : nextPage){
-        if (nextPage.isEnabled()) {
-            Thread.sleep(1000);
-            nextPage.click();
-        }
+
 //        }
 //        проверить цифру из фильтра например марки , закинуть назввание марки в поиск и проверить количество наименований марки  в соответствии цифре из фильтра
 
     }
-private void testCurrentPage(WebDriver browser, String val) throws InterruptedException,StaleElementReferenceException {
-
-    java.util.List<WebElement> listItem = browser.findElements(By.cssSelector("[data-toggle='modal']"));
-    System.out.println("listItem.size = " + listItem.size());
-    for (WebElement element : listItem) {
-        Thread.sleep(2000);
-        element.click();
-        Thread.sleep(1000);
-        String nextResults = browser.findElement(By.cssSelector(".marka")).getText();
-        Thread.sleep(1000);
-        if (val.equals(nextResults)) {
-            System.out.println(nextResults + " - true" + "\n");
-        } else {
-            System.out.println(nextResults + " - false" + "\n");
-        }
-        browser.findElement(By.cssSelector(".close")).click();
-    }
-}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    private void analogNumber(WebDriver browser, JSWaiter jsWaiter) {
-        // check pagination (next page) exist
-        WebElement analogNum = null;
-
-
-        for (; true; ) {
-//            System.out.println("begin cycle, count = " + count);
-            System.out.println("analog num not exist");
-
-            try {
-//                analogNum = browser.findElement(By.cssSelector(".analog_number"));
-                analogNum = browser.findElement(By.cssSelector(".marka"));
-
-            } catch (NoSuchElementException ref) {
-                System.out.println(ref.getMessage());
-
-                WebElement closePodrobnee = browser.findElement(By.cssSelector(".close"));
-                break;
-            }
-            if (analogNum != null) {
-
-                Actions actions = new Actions(browser);
-                actions.moveToElement(analogNum);
-                actions.perform();
-
-                analogNum.getText();
-                while (!jsWaiter.waitForJQueryLoad()) {
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-//                    int countPage = analogNumber(browser);
-//                    anNum += countPage;
-                System.out.println(analogNum);
-            }
-        }
-    }
-}
-
-
-//        WebElement analogNum = (WebElement) browser.findElements(By.cssSelector("[class='analog_number']  "));
+//    public void value2 (WebDriver browser) throws InterruptedException, StaleElementReferenceException {
+//        WebElement item = browser.findElement(By.cssSelector(".origin_number"));
+//        String val = item.getText();
+//// проверка на существование и пустое значение
+//        while  (item.isEnabled() && !TextUtils.isEmpty(val)) {
+//            System.out.println(val);
+//            browser.findElement(By.cssSelector(".close")).click();
+//            browser.findElement(By.cssSelector("[placeholder='Введите слово']")).sendKeys(val);
+//            browser.findElement(By.cssSelector("[class='search-form'] button"));
 //
-//        Actions actions = new Actions(browser);
-//        actions.moveToElement(analogNum);
-//        actions.perform();
+//            LoaderWaiter.waitForLoad(browser);
 //
-//        String analogNumbers = analogNum.getText();
-//        System.out.println(analogNumbers);
+//            testCurrentPage(browser, val);
 //
+//            while (browser.findElement(By.cssSelector(".pagination .pagination li:last-of-type a")).isEnabled()) {
+//                Thread.sleep(TIME_SLEEP);
+//                browser.findElement(By.cssSelector(".pagination .pagination li:last-of-type a")).click();
+//                LoaderWaiter.waitForLoad(browser);
+//
+//                JavascriptExecutor js = (JavascriptExecutor) browser;
+//                js.executeScript("window.scrollTo(0, -document.body.scrollHeight);");
+//
+//                Thread.sleep(TIME_SLEEP);
+//                testCurrentPage(browser, val);
+//            }
+//        }
 //    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private void testCurrentPage(WebDriver browser, String val) throws InterruptedException, StaleElementReferenceException {
+
+        java.util.List<WebElement> listItem = browser.findElements(By.cssSelector("[data-toggle='modal']"));
+        System.out.println("\n" + "listItem.size = " + listItem.size());
+        for (WebElement element : listItem) {
+            Thread.sleep(TIME_SLEEP);
+            element.click();
+            Thread.sleep(TIME_SLEEP);
+            String nextResults = browser.findElement(By.cssSelector(".origin_number")).getText();
+            Thread.sleep(TIME_SLEEP);
+            if (val.equals(nextResults)) {
+                System.out.println(nextResults + " - true");
+            } else {
+                System.out.println(nextResults + " - false");
+            }
+            browser.findElement(By.cssSelector(".close")).click();
+        }
+    }
+}
 
