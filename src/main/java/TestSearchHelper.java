@@ -12,7 +12,7 @@ import java.util.List;
 public class TestSearchHelper {
     private final long TIME_SLEEP = 500;
     private WebDriver browser;
-//    private JSWaiter jsWaiter;
+    //    private JSWaiter jsWaiter;
     private HashMap<String, String> hashMapValue = new HashMap<String, String>();
     private String val = null; //изначально значение val является null
     private JavascriptExecutor js;
@@ -26,17 +26,17 @@ public class TestSearchHelper {
 
     public void getValue() throws InterruptedException, StaleElementReferenceException, NoSuchElementException {
 
+        while (hashMapValue.size() < 2) {
+            findUniqueValue(browser);
 
-        findUniqueValue(browser);
+            makeSearch(browser);
 
-        makeSearch(browser);
+            LoaderWaiter.waitForLoad(browser);
 
-        LoaderWaiter.waitForLoad(browser);
+            testAllPages(browser);
 
-        testAllPages(browser);
-
-        //        browser.findElement(By.cssSelector(".header_block [href='poisk.html']")).click();
-
+            browser.findElement(By.cssSelector(".header_block [href='poisk.html']")).click();
+        }
     }
 
 //        проверить цифру из фильтра например марки , закинуть назввание марки в поиск и проверить количество наименований марки  в соответствии цифре из фильтра
@@ -61,6 +61,7 @@ public class TestSearchHelper {
     }
 
     private void findUniqueValue(WebDriver browser) throws InterruptedException {
+        val = null;
         List<WebElement> listItems = browser.findElements(By.cssSelector("[data-toggle='modal']"));
         System.out.println("listItems = " + listItems.size());
 
@@ -75,11 +76,11 @@ public class TestSearchHelper {
 //                нашел значение
             } else {
                 System.out.println("val = " + val);
-                browser.findElement(By.cssSelector(".close")).click();
                 Thread.sleep(TIME_SLEEP);
-                if (!hashMapValue.containsKey(val)){
+                if (!hashMapValue.containsKey(val)) {
                     System.out.println("new value found");
                     hashMapValue.put(val, ".origin_number");
+                    browser.findElement(By.cssSelector(".close")).click();
                     break;
                 }
 
@@ -90,14 +91,14 @@ public class TestSearchHelper {
 
     }
 
-    private void makeSearch (WebDriver browser){
+    private void makeSearch(WebDriver browser) {
 
         js.executeScript("window.scrollTo(0, -document.body.scrollHeight);");
         browser.findElement(By.cssSelector("[placeholder='Введите слово']")).sendKeys(val);
         browser.findElement(By.cssSelector("[class='search-form'] button")).click();
     }
 
-    private void testAllPages (WebDriver browser) throws InterruptedException {
+    private void testAllPages(WebDriver browser) throws InterruptedException {
         testCurrenPage(browser, val);
 
         while (browser.findElements(By.cssSelector(".pagination .pagination li:last-of-type a")).size() > 0 && browser.findElement(By.cssSelector(".pagination .pagination li:last-of-type a")).isEnabled()) {
@@ -110,9 +111,7 @@ public class TestSearchHelper {
 
             testCurrenPage(browser, val);
         }
-
+        Thread.sleep(TIME_SLEEP);
     }
-
-
 }
 
