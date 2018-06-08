@@ -11,17 +11,17 @@ import java.util.List;
 public class TestSearchHelper {
     private final long TIME_SLEEP = 500;
     private WebDriver browser;
-//    private final JSWaiter jsWaiter;
+    private JSWaiter jsWaiter;
 
     public TestSearchHelper(WebDriver browser) {
         this.browser = browser;
-//        jsWaiter = new JSWaiter(browser);
+        jsWaiter = new JSWaiter(browser);
     }
 
 
     public void value(WebDriver browser) throws InterruptedException, StaleElementReferenceException, NoSuchElementException {
-        List<WebElement> listItems =browser.findElements(By.cssSelector("[data-toggle='modal']"));
-        System.out.println("listItems = "+ listItems.size());
+        List<WebElement> listItems = browser.findElements(By.cssSelector("[data-toggle='modal']"));
+        System.out.println("listItems = " + listItems.size());
         String val = null;
         JavascriptExecutor js = (JavascriptExecutor) browser;
         for (WebElement buttonDetails : listItems) {
@@ -43,14 +43,20 @@ public class TestSearchHelper {
         }
         js.executeScript("window.scrollTo(0, -document.body.scrollHeight);");
         browser.findElement(By.cssSelector("[placeholder='Введите слово']")).sendKeys(val);
-        browser.findElement(By.cssSelector("[class='search-form'] button"));
+        browser.findElement(By.cssSelector("[class='search-form'] button")).click();
 
         LoaderWaiter.waitForLoad(browser);
 
         testCurrentPage(browser, val);
 
+//        do {
+//            WebElement pagination = browser.findElement(By.cssSelector(".pagination .pagination li:last-of-type a"));
+//
+//            System.out.println("no pagination");
+//        }
+//
+        while (browser.findElements(By.cssSelector(".pagination .pagination li:last-of-type a")).size() > 0 && browser.findElement(By.cssSelector(".pagination .pagination li:last-of-type a")).isEnabled()) {
 
-        while (browser.findElement(By.cssSelector(".pagination .pagination li:last-of-type a")).isEnabled()) {
             Thread.sleep(TIME_SLEEP);
             browser.findElement(By.cssSelector(".pagination .pagination li:last-of-type a")).click();
             LoaderWaiter.waitForLoad(browser);
@@ -60,12 +66,8 @@ public class TestSearchHelper {
             Thread.sleep(TIME_SLEEP);
             testCurrentPage(browser, val);
         }
+    }
 
-
-//        } else {
-//            do {
-        browser.findElement(By.cssSelector(".close")).click();
-        System.out.println("no search value");
 
 //                Thread.sleep(TIME_SLEEP);
 //                browser.findElement(By.cssSelector("[data-toggle='modal']")).click();
@@ -73,7 +75,7 @@ public class TestSearchHelper {
 
 
 //            } while (browser.findElement(By.cssSelector("[data-toggle='modal']")).isEnabled());
-    }
+
 
 //        }
 //        проверить цифру из фильтра например марки , закинуть назввание марки в поиск и проверить количество наименований марки  в соответствии цифре из фильтра

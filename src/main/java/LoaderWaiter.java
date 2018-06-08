@@ -8,11 +8,15 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.concurrent.TimeoutException;
 
 public class LoaderWaiter {
-    public static boolean waitForLoad(WebDriver browser) {
+    
+    public static boolean waitForLoad(WebDriver browser) throws InterruptedException {
+        JSWaiter jsWaiter = new JSWaiter(browser);
 //        ExpectedCondition<Boolean> pageLoadCondition = browser1 -> ((JavascriptExecutor) browser1).executeScript("return document.readyState").equals("complete");
 //        WebDriverWait wait = new WebDriverWait(browser, 30);
 //        wait.until(pageLoadCondition);
-
+        while (!jsWaiter.waitForJQueryLoad()) {
+            Thread.sleep(500);
+        }
         WebDriverWait waitUntil = new WebDriverWait(browser, 10);
 //        waitUntil.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".preloader[style='display: none;']")));
         return waitUntil.until(ExpectedConditions.attributeContains(By.cssSelector(".preloader"), "style", "display: none;")).booleanValue();
