@@ -6,6 +6,7 @@ import org.openqa.selenium.interactions.Actions;
 
 import javax.xml.soap.Node;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 public class TestSearchHelper {
@@ -19,7 +20,7 @@ public class TestSearchHelper {
     }
 
 
-    public void value(WebDriver browser) throws InterruptedException, StaleElementReferenceException, NoSuchElementException {
+    public void getValue(WebDriver browser) throws InterruptedException, StaleElementReferenceException, NoSuchElementException {
         List<WebElement> listItems = browser.findElements(By.cssSelector("[data-toggle='modal']"));
         System.out.println("listItems = " + listItems.size());
         String val = null;
@@ -31,8 +32,12 @@ public class TestSearchHelper {
             val = item.getText();
 
             if (TextUtils.isEmpty(val)) {
-                System.out.println("no search value");
+//                System.out.println("no such element value");
             } else {
+//  make massive
+                hashMapOfValues(browser, val);
+
+
                 System.out.println("val = " + val);
                 browser.findElement(By.cssSelector(".close")).click();
                 Thread.sleep(TIME_SLEEP);
@@ -41,20 +46,18 @@ public class TestSearchHelper {
             browser.findElement(By.cssSelector(".close")).click();
             Thread.sleep(TIME_SLEEP);
         }
+
+
         js.executeScript("window.scrollTo(0, -document.body.scrollHeight);");
         browser.findElement(By.cssSelector("[placeholder='Введите слово']")).sendKeys(val);
         browser.findElement(By.cssSelector("[class='search-form'] button")).click();
 
         LoaderWaiter.waitForLoad(browser);
 
-        testCurrentPage(browser, val);
+        testSearchResult(browser, val);
 
-//        do {
-//            WebElement pagination = browser.findElement(By.cssSelector(".pagination .pagination li:last-of-type a"));
-//
-//            System.out.println("no pagination");
-//        }
-//
+
+
         while (browser.findElements(By.cssSelector(".pagination .pagination li:last-of-type a")).size() > 0 && browser.findElement(By.cssSelector(".pagination .pagination li:last-of-type a")).isEnabled()) {
 
             Thread.sleep(TIME_SLEEP);
@@ -64,55 +67,13 @@ public class TestSearchHelper {
             js.executeScript("window.scrollTo(0, -document.body.scrollHeight);");
 
             Thread.sleep(TIME_SLEEP);
-            testCurrentPage(browser, val);
+            testSearchResult(browser, val);
         }
     }
 
-
-//                Thread.sleep(TIME_SLEEP);
-//                browser.findElement(By.cssSelector("[data-toggle='modal']")).click();
-//                browser.findElement(By.cssSelector(".origin_number")).getText();
-
-
-//            } while (browser.findElement(By.cssSelector("[data-toggle='modal']")).isEnabled());
-
-
-//        }
 //        проверить цифру из фильтра например марки , закинуть назввание марки в поиск и проверить количество наименований марки  в соответствии цифре из фильтра
 
-//    }
-
-
-//    public void value2 (WebDriver browser) throws InterruptedException, StaleElementReferenceException {
-//        WebElement item = browser.findElement(By.cssSelector(".origin_number"));
-//        String val = item.getText();
-//// проверка на существование и пустое значение
-//        while  (item.isEnabled() && !TextUtils.isEmpty(val)) {
-//            System.out.println(val);
-//            browser.findElement(By.cssSelector(".close")).click();
-//            browser.findElement(By.cssSelector("[placeholder='Введите слово']")).sendKeys(val);
-//            browser.findElement(By.cssSelector("[class='search-form'] button"));
-//
-//            LoaderWaiter.waitForLoad(browser);
-//
-//            testCurrentPage(browser, val);
-//
-//            while (browser.findElement(By.cssSelector(".pagination .pagination li:last-of-type a")).isEnabled()) {
-//                Thread.sleep(TIME_SLEEP);
-//                browser.findElement(By.cssSelector(".pagination .pagination li:last-of-type a")).click();
-//                LoaderWaiter.waitForLoad(browser);
-//
-//                JavascriptExecutor js = (JavascriptExecutor) browser;
-//                js.executeScript("window.scrollTo(0, -document.body.scrollHeight);");
-//
-//                Thread.sleep(TIME_SLEEP);
-//                testCurrentPage(browser, val);
-//            }
-//        }
-//    }
-
-
-    private void testCurrentPage(WebDriver browser, String val) throws InterruptedException, StaleElementReferenceException {
+    private void testSearchResult(WebDriver browser, String val) throws InterruptedException, StaleElementReferenceException {
 
         java.util.List<WebElement> listItem = browser.findElements(By.cssSelector("[data-toggle='modal']"));
         System.out.println("\n" + "listItem.size = " + listItem.size());
@@ -123,12 +84,24 @@ public class TestSearchHelper {
             String nextResults = browser.findElement(By.cssSelector(".origin_number")).getText();
             Thread.sleep(TIME_SLEEP);
             if (val.equals(nextResults)) {
-                System.out.println("testCurrentPage: - true" + nextResults);
+                System.out.println("testCurrentPage: - true - " + nextResults);
             } else {
-                System.out.println("testCurrentPage: - false" + nextResults);
+                System.out.println("testCurrentPage: - false - " + nextResults);
             }
             browser.findElement(By.cssSelector(".close")).click();
         }
     }
+
+
+    private void hashMapOfValues (WebDriver browser, String val){
+
+        HashMap<String, String> hashMap = new HashMap<String, String>();
+//        hashMap.containsKey(val);
+        hashMap.put(val, " .origin_number");
+        System.out.println(hashMap);
+
+
+    }
+
 }
 

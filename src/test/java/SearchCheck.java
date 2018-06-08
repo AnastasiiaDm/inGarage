@@ -27,7 +27,7 @@ public class SearchCheck {
     @Test
     public void test_podrobnee() throws InterruptedException, IllegalArgumentException, StaleElementReferenceException {
         TestSearchHelper testSearchHelper = new TestSearchHelper(browser);
-        testSearchHelper.value(browser);
+        testSearchHelper.getValue(browser);
 
     }
 }
