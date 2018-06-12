@@ -44,7 +44,7 @@ public class TestSearchHelper {
     private void testCurrenPage(WebDriver browser, String val) throws InterruptedException, StaleElementReferenceException {
 
         java.util.List<WebElement> listItem = browser.findElements(By.cssSelector("[data-toggle='modal']"));
-        System.out.println("\n" + "listItem.size = " + listItem.size());
+        System.out.println("listItemsCurrentPage = " + listItem.size());
         for (WebElement element : listItem) {
             Thread.sleep(TIME_SLEEP);
             element.click();
@@ -63,7 +63,14 @@ public class TestSearchHelper {
     private void findUniqueValue(WebDriver browser) throws InterruptedException {
         val = null;
         List<WebElement> listItems = browser.findElements(By.cssSelector("[data-toggle='modal']"));
-        System.out.println("listItems = " + listItems.size());
+//        js.executeScript("window.scrollTo(0, document.body.scrollHeight);");
+//        Thread.sleep(TIME_SLEEP);
+//        WebElement pagNum = (WebElement) browser.findElements(By.id(".pagination .pagination .active a"));
+//        System.out.println("\n" + "listItems" + pagNum.getAttribute("a") + " = " + listItems.size());
+        System.out.println("\n" + "listItems = " + listItems.size());
+//        js.executeScript("window.scrollTo(0, -document.body.scrollHeight);");
+//        Thread.sleep(TIME_SLEEP);
+
 
         for (WebElement buttonDetails : listItems) {
             buttonDetails.click();
@@ -71,19 +78,23 @@ public class TestSearchHelper {
             WebElement item = browser.findElement(By.cssSelector(".origin_number"));
             val = item.getText();
 
-            if (TextUtils.isEmpty(val)) {
+            if (TextUtils.isEmpty(val)
+//                    || hashMapValue.containsKey("{\\1}")
+                    ) {
                 System.out.println("no such element value");
 //                нашел значение
             } else {
                 System.out.println("val = " + val);
                 Thread.sleep(TIME_SLEEP);
-                if (!hashMapValue.containsKey(val)) {
+                if (!hashMapValue.containsKey(val)
+//                        &&  val != "{\\1}"
+                        ) {
                     System.out.println("new value found");
                     hashMapValue.put(val, ".origin_number");
+                    System.out.println("hashMapValue: " + hashMapValue);
                     browser.findElement(By.cssSelector(".close")).click();
                     break;
                 }
-
             }
             browser.findElement(By.cssSelector(".close")).click();
             Thread.sleep(TIME_SLEEP);
@@ -91,11 +102,12 @@ public class TestSearchHelper {
 
     }
 
-    private void makeSearch(WebDriver browser) {
-
+    private void makeSearch(WebDriver browser) throws InterruptedException {
+        Thread.sleep(TIME_SLEEP);
         js.executeScript("window.scrollTo(0, -document.body.scrollHeight);");
         browser.findElement(By.cssSelector("[placeholder='Введите слово']")).sendKeys(val);
         browser.findElement(By.cssSelector("[class='search-form'] button")).click();
+
     }
 
     private void testAllPages(WebDriver browser) throws InterruptedException {

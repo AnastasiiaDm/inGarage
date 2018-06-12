@@ -15,20 +15,15 @@ public class SearchCheck {
         browser = new ChromeDriver();
         browser.get("https://dev.ingarage.ua/poisk.html");
         browser.manage().window().maximize();
-
     }
-
 //    @AfterTest
 //    public void closeBrowser() {
 //        browser.quit();
 //    }
-
-
     @Test
     public void test_podrobnee() throws InterruptedException, IllegalArgumentException, StaleElementReferenceException {
         TestSearchHelper testSearchHelper = new TestSearchHelper(browser);
         testSearchHelper.getValue();
-
     }
 }
 
