@@ -27,7 +27,7 @@ public class TestSearchHelper {
     public void getValue() throws InterruptedException, StaleElementReferenceException, NoSuchElementException {
 
         while (hashMapValue.size() < 2) {
-            findUniqueValue(browser);
+            findUniqueValueAllPages(browser);
 
             makeSearch(browser);
 
@@ -41,7 +41,7 @@ public class TestSearchHelper {
 
 //        проверить цифру из фильтра например марки , закинуть назввание марки в поиск и проверить количество наименований марки  в соответствии цифре из фильтра
 
-    private void testCurrenPage(WebDriver browser, String val) throws InterruptedException, StaleElementReferenceException {
+    private void testCurrentPage(WebDriver browser, String val) throws InterruptedException, StaleElementReferenceException {
 
         java.util.List<WebElement> listItem = browser.findElements(By.cssSelector("[data-toggle='modal']"));
         System.out.println("listItemsCurrentPage = " + listItem.size());
@@ -60,7 +60,7 @@ public class TestSearchHelper {
         }
     }
 
-    private void findUniqueValue(WebDriver browser) throws InterruptedException {
+    private void findUniqueValueCurrentPage(WebDriver browser) throws InterruptedException {
         val = null;
         List<WebElement> listItems = browser.findElements(By.cssSelector("[data-toggle='modal']"));
 //        js.executeScript("window.scrollTo(0, document.body.scrollHeight);");
@@ -71,24 +71,19 @@ public class TestSearchHelper {
 //        js.executeScript("window.scrollTo(0, -document.body.scrollHeight);");
 //        Thread.sleep(TIME_SLEEP);
 
-
         for (WebElement buttonDetails : listItems) {
             buttonDetails.click();
             Thread.sleep(TIME_SLEEP);
             WebElement item = browser.findElement(By.cssSelector(".origin_number"));
             val = item.getText();
 
-            if (TextUtils.isEmpty(val)
-//                    || hashMapValue.containsKey("{\\1}")
-                    ) {
+            if (TextUtils.isEmpty(val) || val.length() < 3) {
                 System.out.println("no such element value");
 //                нашел значение
             } else {
                 System.out.println("val = " + val);
                 Thread.sleep(TIME_SLEEP);
-                if (!hashMapValue.containsKey(val)
-//                        &&  val != "{\\1}"
-                        ) {
+                if (!hashMapValue.containsKey(val)) {
                     System.out.println("new value found");
                     hashMapValue.put(val, ".origin_number");
                     System.out.println("hashMapValue: " + hashMapValue);
@@ -96,11 +91,25 @@ public class TestSearchHelper {
                     break;
                 }
             }
+            val = null;
             browser.findElement(By.cssSelector(".close")).click();
             Thread.sleep(TIME_SLEEP);
+
         }
 
     }
+
+
+    private void findUniqueValueAllPages(WebDriver browser) throws InterruptedException {
+        findUniqueValueCurrentPage(browser);
+        if (val != null)
+            return;
+        while (getPagination(browser)) {
+            findUniqueValueCurrentPage(browser);
+        }
+        Thread.sleep(TIME_SLEEP);
+    }
+
 
     private void makeSearch(WebDriver browser) throws InterruptedException {
         Thread.sleep(TIME_SLEEP);
@@ -111,19 +120,27 @@ public class TestSearchHelper {
     }
 
     private void testAllPages(WebDriver browser) throws InterruptedException {
-        testCurrenPage(browser, val);
+        testCurrentPage(browser, val);
 
-        while (browser.findElements(By.cssSelector(".pagination .pagination li:last-of-type a")).size() > 0 && browser.findElement(By.cssSelector(".pagination .pagination li:last-of-type a")).isEnabled()) {
+        while (getPagination(browser)) {
+            testCurrentPage(browser, val);
+        }
+        Thread.sleep(TIME_SLEEP);
+    }
+
+    private boolean getPagination(WebDriver browser) throws InterruptedException {
+        boolean isPagination = browser.findElements(By.cssSelector(".pagination .pagination li:last-of-type a")).size() > 0
+                && browser.findElement(By.cssSelector(".pagination .pagination li:last-of-type a")).isEnabled();
+        if (isPagination) {
             Thread.sleep(TIME_SLEEP);
             browser.findElement(By.cssSelector(".pagination .pagination li:last-of-type a")).click();
             LoaderWaiter.waitForLoad(browser);
 
             js.executeScript("window.scrollTo(0, -document.body.scrollHeight);");
             Thread.sleep(TIME_SLEEP);
-
-            testCurrenPage(browser, val);
         }
-        Thread.sleep(TIME_SLEEP);
+
+        return isPagination;
     }
 }
 
