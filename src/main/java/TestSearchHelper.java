@@ -24,7 +24,7 @@ public class TestSearchHelper {
 
     public void getValue() throws InterruptedException, StaleElementReferenceException, NoSuchElementException {
 
-        System.out.println("getValue " + " start" + "\n");
+//        System.out.println("getValue " + " start" + "\n");
 
         while (!isLastPage()) {
 
@@ -41,12 +41,12 @@ public class TestSearchHelper {
 
             browser.findElement(By.cssSelector(".header_block [href='poisk.html']")).click();
         }
-        System.out.println("getValue " + " fin" + "\n");
+//        System.out.println("getValue " + " fin" + "\n");
 
     }
 
     private void switchPage() throws InterruptedException {
-        System.out.println("switchPage: countTestedPages = " + countTestedPages);
+        System.out.println("\n" + "switchPage: countTestedPages = " + countTestedPages);
         System.out.println("active page = " + browser.findElement(By.cssSelector(".pagination .pagination .active")).getText());
 
         while (countTestedPages != getActivePage(browser)) {
@@ -63,10 +63,10 @@ public class TestSearchHelper {
 //        проверить цифру из фильтра например марки , закинуть назввание марки в поиск и проверить количество наименований марки  в соответствии цифре из фильтра
 
     private void testCurrentPage(WebDriver browser, String val) throws InterruptedException, StaleElementReferenceException {
-        System.out.println("testCurrentPage " + " start" + "\n");
+//        System.out.println("testCurrentPage " + " start" + "\n");
 
         java.util.List<WebElement> listItem = browser.findElements(By.cssSelector("[data-toggle='modal']"));
-        System.out.println("listItemsCurrentPage = " + listItem.size());
+        System.out.println("\n" + "listItemsCurrentPage = " + listItem.size());
         for (WebElement element : listItem) {
             Thread.sleep(TIME_SLEEP);
             element.click();
@@ -80,12 +80,12 @@ public class TestSearchHelper {
             }
             browser.findElement(By.cssSelector(".close")).click();
         }
-        System.out.println("testCurrentPage " + " fin" + "\n");
+//        System.out.println("testCurrentPage " + " fin" + "\n");
 
     }
 
     private void findUniqueValueCurrentPage(WebDriver browser) throws InterruptedException {
-        System.out.println("findUniqueValueCurrentPage " + " start" + "\n");
+//        System.out.println("findUniqueValueCurrentPage " + " start" + "\n");
         passedPageForUniqueValue = getActivePage(browser) <= passedPageForUniqueValue ? passedPageForUniqueValue : getActivePage(browser);
         val = null;
         List<WebElement> listItems = browser.findElements(By.cssSelector("[data-toggle='modal']"));
@@ -119,32 +119,32 @@ public class TestSearchHelper {
             Thread.sleep(TIME_SLEEP);
 
         }
-        System.out.println("findUniqueValueCurrentPage " + " fin" + "\n");
+//        System.out.println("findUniqueValueCurrentPage " + " fin" + "\n");
 
     }
 
 
     private void findUniqueValueAllPages(WebDriver browser) throws InterruptedException {
-        System.out.println("findUniqueValueAllPages " + " start" + "\n");
+//        System.out.println("findUniqueValueAllPages " + " start" + "\n");
 
         findUniqueValueCurrentPage(browser);
         if (val != null)
             return;
         while (getPagination(browser, passedPageForUniqueValue)) {
             countTestedPages++;
-            System.out.println("***************countTestedPages " + countTestedPages);
+            System.out.println("*******countTestedPages " + countTestedPages);
             findUniqueValueCurrentPage(browser);
             if (val != null)
                 break;
         }
         Thread.sleep(TIME_SLEEP);
-        System.out.println("findUniqueValueAllPages " + " fin" + "\n");
+//        System.out.println("findUniqueValueAllPages " + " fin" + "\n");
 
     }
 
 
     private void makeSearch(WebDriver browser) throws InterruptedException {
-        System.out.println("makeSearch " + " start" + "\n");
+//        System.out.println("makeSearch " + " start" + "\n");
 
         Thread.sleep(TIME_SLEEP);
         js.executeScript("window.scrollTo(0, -document.body.scrollHeight);");
@@ -152,12 +152,12 @@ public class TestSearchHelper {
 //        js.executeScript("window.scrollTo(0, -document.body.scrollHeight);");
 
         browser.findElement(By.cssSelector("[class='search-form'] button")).click();
-        System.out.println("makeSearch" + "fin" + "\n");
+//        System.out.println("makeSearch" + "fin" + "\n");
 
     }
 
     private void testAllPages(WebDriver browser) throws InterruptedException {
-        System.out.println("testAllPages " + " start" + "\n");
+//        System.out.println("testAllPages " + " start" + "\n");
 
         testCurrentPage(browser, val);
 
@@ -165,14 +165,14 @@ public class TestSearchHelper {
             testCurrentPage(browser, val);
         }
         Thread.sleep(TIME_SLEEP);
-        System.out.println("testAllPages " + " fin" + "\n");
+//        System.out.println("testAllPages " + " fin" + "\n");
 
     }
 
     private boolean getPagination(WebDriver browser, int passedPage) throws InterruptedException {
-        System.out.println("getPagination: start" + "\n");
-        System.out.println("getPagination: passedPageForUniqueValue = " + passedPageForUniqueValue);
-        System.out.println("getPagination: passedPage = " + passedPage);
+//        System.out.println("getPagination: start" + "\n");
+        System.out.println("\n" + "getPagination: passedPageForUniqueValue = " + passedPageForUniqueValue);
+        System.out.println("getPagination: passedPage = " + passedPage + "\n");
 
         boolean isPagination = browser.findElements(By.cssSelector(".pagination .pagination li:last-of-type a")).size() > 0
                 && browser.findElement(By.cssSelector(".pagination .pagination li:last-of-type a")).isEnabled();
@@ -187,18 +187,18 @@ public class TestSearchHelper {
             js.executeScript("window.scrollTo(0, -document.body.scrollHeight);");
             Thread.sleep(TIME_SLEEP);
         }
-        System.out.println("getPagination " + " fin" + "\n");
+//        System.out.println("getPagination " + " fin" + "\n");
 
         return isPagination;
 
     }
 
     private int getActivePage(WebDriver browser) throws InterruptedException {
-        System.out.println("getActivePage " + " start" + "\n");
+//        System.out.println("getActivePage " + " start" + "\n");
         js.executeScript("window.scrollTo(0, document.body.scrollHeight);");
         Thread.sleep(TIME_SLEEP);
         WebElement activePageNum = browser.findElement(By.cssSelector(".active")).findElement(By.tagName("a"));
-        System.out.println("activePageNum: " + activePageNum.getText());
+//        System.out.println("activePageNum: " + activePageNum.getText());
 
         return Integer.parseInt(activePageNum.getText());
     }
