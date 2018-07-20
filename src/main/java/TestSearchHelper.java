@@ -12,6 +12,7 @@ public class TestSearchHelper {
     private String val = null; //изначально значение val является null
     private JavascriptExecutor js;
     private int passedPageForUniqueValue = 0;
+    private int countTestedPages = 1;
 
 
     public TestSearchHelper(WebDriver browser) {
@@ -27,6 +28,9 @@ public class TestSearchHelper {
 
         while (!isLastPage()) {
 
+            if (countTestedPages > 1)
+                switchPage();
+
             findUniqueValueAllPages(browser);
 
             makeSearch(browser);
@@ -41,8 +45,18 @@ public class TestSearchHelper {
 
     }
 
+    private void switchPage() throws InterruptedException {
+        System.out.println("switchPage: countTestedPages = " + countTestedPages);
+        System.out.println("active page = " + browser.findElement(By.cssSelector(".pagination .pagination .active")).getText());
+
+        while (countTestedPages != getActivePage(browser)) {
+            browser.findElement(By.cssSelector(".pagination .pagination li:last-of-type a")).click();
+            LoaderWaiter.waitForLoad(browser);
+        }
+    }
+
     private boolean isLastPage() {
-        return  !browser.findElement(By.cssSelector(".pagination .pagination li:last-of-type a")).isEnabled();
+        return !browser.findElement(By.cssSelector(".pagination .pagination li:last-of-type a")).isEnabled();
     }
 
 
@@ -78,7 +92,8 @@ public class TestSearchHelper {
 
 //        System.out.println("\n" + "listItems" + pagNum.getAttribute("a") + " = " + listItems.size());
         System.out.println("\n" + "listItems = " + listItems.size());
-
+        js.executeScript("window.scrollTo(0, -document.body.scrollHeight);");
+        Thread.sleep(TIME_SLEEP);
         for (WebElement buttonDetails : listItems) {
             buttonDetails.click();
             Thread.sleep(TIME_SLEEP);
@@ -116,6 +131,8 @@ public class TestSearchHelper {
         if (val != null)
             return;
         while (getPagination(browser, passedPageForUniqueValue)) {
+            countTestedPages++;
+            System.out.println("***************countTestedPages " + countTestedPages);
             findUniqueValueCurrentPage(browser);
             if (val != null)
                 break;
@@ -181,8 +198,6 @@ public class TestSearchHelper {
         js.executeScript("window.scrollTo(0, document.body.scrollHeight);");
         Thread.sleep(TIME_SLEEP);
         WebElement activePageNum = browser.findElement(By.cssSelector(".active")).findElement(By.tagName("a"));
-        js.executeScript("window.scrollTo(0, -document.body.scrollHeight);");
-        Thread.sleep(TIME_SLEEP);
         System.out.println("activePageNum: " + activePageNum.getText());
 
         return Integer.parseInt(activePageNum.getText());
