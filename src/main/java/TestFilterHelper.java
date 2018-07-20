@@ -49,12 +49,12 @@ public class TestFilterHelper {
     }
 
     public void testCatalogFilter(String catalogFilter) throws InterruptedException, IllegalArgumentException {
-
         while (!jsWaiter.waitForJQueryLoad()) {
             Thread.sleep(500);
         }
 
         java.util.List<WebElement> el = browser.findElements(By.cssSelector("input[name='" + catalogFilter + "']"));
+        System.out.println(el);
 
         for (int i = 0; i < el.size(); i++) {
             WebElement input = el.get(i);
