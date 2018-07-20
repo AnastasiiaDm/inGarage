@@ -29,5 +29,30 @@ public class SearchCheck {
         TestSearchHelper testSearchHelper = new TestSearchHelper(browser);
         testSearchHelper.testing("analog_number");
     }
+    @Test
+    public void marka() throws InterruptedException, IllegalArgumentException, StaleElementReferenceException {
+        TestSearchHelper testSearchHelper = new TestSearchHelper(browser);
+        testSearchHelper.testing("marka");
+    }
+    @Test
+    public void model() throws InterruptedException, IllegalArgumentException, StaleElementReferenceException {
+        TestSearchHelper testSearchHelper = new TestSearchHelper(browser);
+        testSearchHelper.testing("model");
+    }
+    @Test
+    public void year() throws InterruptedException, IllegalArgumentException, StaleElementReferenceException {
+        TestSearchHelper testSearchHelper = new TestSearchHelper(browser);
+        testSearchHelper.testing("year");
+    }
+    @Test
+    public void spares() throws InterruptedException, IllegalArgumentException, StaleElementReferenceException {
+        TestSearchHelper testSearchHelper = new TestSearchHelper(browser);
+        testSearchHelper.testing("spares");
+    }
+    @Test
+    public void condition() throws InterruptedException, IllegalArgumentException, StaleElementReferenceException {
+        TestSearchHelper testSearchHelper = new TestSearchHelper(browser);
+        testSearchHelper.testing("condition");
+    }
 }
 
