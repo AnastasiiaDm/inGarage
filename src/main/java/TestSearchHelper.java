@@ -25,7 +25,7 @@ public class TestSearchHelper {
 
         System.out.println("getValue " + " start" + "\n");
 
-        while (hashMapValue.size() < 5) {
+        while (!isLastPage()) {
 
             findUniqueValueAllPages(browser);
 
@@ -39,6 +39,10 @@ public class TestSearchHelper {
         }
         System.out.println("getValue " + " fin" + "\n");
 
+    }
+
+    private boolean isLastPage() {
+        return  !browser.findElement(By.cssSelector(".pagination .pagination li:last-of-type a")).isEnabled();
     }
 
 
