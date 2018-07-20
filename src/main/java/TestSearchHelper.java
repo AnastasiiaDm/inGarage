@@ -13,6 +13,7 @@ public class TestSearchHelper {
     private JavascriptExecutor js;
     private int passedPageForUniqueValue = 0;
     private int countTestedPages = 1;
+    private String testingField;
 
 
     public TestSearchHelper(WebDriver browser) {
@@ -22,9 +23,9 @@ public class TestSearchHelper {
     }
 
 
-    public void getValue() throws InterruptedException, StaleElementReferenceException, NoSuchElementException {
-
-//        System.out.println("getValue " + " start" + "\n");
+    public void testing(String testingField) throws InterruptedException, StaleElementReferenceException, NoSuchElementException {
+        this.testingField = testingField;
+//        System.out.println("testing " + " start" + "\n");
 
         while (!isLastPage()) {
 
@@ -41,7 +42,7 @@ public class TestSearchHelper {
 
             browser.findElement(By.cssSelector(".header_block [href='poisk.html']")).click();
         }
-//        System.out.println("getValue " + " fin" + "\n");
+//        System.out.println("testing " + " fin" + "\n");
 
     }
 
@@ -71,7 +72,7 @@ public class TestSearchHelper {
             Thread.sleep(TIME_SLEEP);
             element.click();
             Thread.sleep(TIME_SLEEP);
-            String nextResults = browser.findElement(By.cssSelector(".origin_number")).getText();
+            String nextResults = browser.findElement(By.cssSelector("." + testingField)).getText();
             Thread.sleep(TIME_SLEEP);
             if (val.equals(nextResults)) {
                 System.out.println("testCurrentPage: - true - " + nextResults);
@@ -97,7 +98,7 @@ public class TestSearchHelper {
         for (WebElement buttonDetails : listItems) {
             buttonDetails.click();
             Thread.sleep(TIME_SLEEP);
-            WebElement item = browser.findElement(By.cssSelector(".origin_number"));
+            WebElement item = browser.findElement(By.cssSelector("." + testingField));
             val = item.getText();
 
             if (TextUtils.isEmpty(val) || val.length() < 3) {
@@ -108,7 +109,7 @@ public class TestSearchHelper {
                 Thread.sleep(TIME_SLEEP);
                 if (!hashMapValue.containsKey(val)) {
                     System.out.println("new value found");
-                    hashMapValue.put(val, ".origin_number");
+                    hashMapValue.put(val, "." + testingField);
                     System.out.println("hashMapValue: " + hashMapValue);
                     browser.findElement(By.cssSelector(".close")).click();
                     return;

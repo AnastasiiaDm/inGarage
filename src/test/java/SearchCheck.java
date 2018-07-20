@@ -1,6 +1,5 @@
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -21,9 +20,14 @@ public class SearchCheck {
         browser.quit();
     }
     @Test
-    public void test_podrobnee() throws InterruptedException, IllegalArgumentException, StaleElementReferenceException {
+    public void origin_number() throws InterruptedException, IllegalArgumentException, StaleElementReferenceException {
         TestSearchHelper testSearchHelper = new TestSearchHelper(browser);
-         testSearchHelper.getValue();
+         testSearchHelper.testing("origin_number");
+    }
+    @Test
+    public void analog_number() throws InterruptedException, IllegalArgumentException, StaleElementReferenceException {
+        TestSearchHelper testSearchHelper = new TestSearchHelper(browser);
+        testSearchHelper.testing("analog_number");
     }
 }
 
